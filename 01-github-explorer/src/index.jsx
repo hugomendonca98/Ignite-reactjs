@@ -1,9 +1,10 @@
 import React from 'react'
+import App from './App';
 
-function App() {
+function Index() {
     return (
-        <div>Hello</div>
+        <App />
     )
 }
 
-export default index;
+export default Index;
