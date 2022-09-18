@@ -1,4 +1,5 @@
 import Image from "next/image";
+import SigninButton from "../SignButton/SigninButton";
 
 import styles from "./styles.module.scss";
 
@@ -13,6 +14,7 @@ export default function Header() {
           </a>
           <a href="">Posts</a>
         </nav>
+        <SigninButton />
       </div>
     </header>
   );
