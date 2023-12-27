@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint --ext .ts,.tsx"
+    "lint": "eslint --ext .ts,.tsx",
+    "test": "jest"
   },
   "dependencies": {
     "@prismicio/client": "^6.7.3",
@@ -23,17 +24,27 @@
     "stripe": "^10.10.0"
   },
   "devDependencies": {
+    "identity-obj-proxy": "^3.0.0",
+    "@testing-library/jest-dom": "^6.1.5",
+    "@testing-library/react": "^14.1.2",
+    "@types/jest": "^29.5.11",
     "@types/node": "^18.7.17",
     "@types/prismic-dom": "^2.1.1",
     "@types/react": "^18.0.20",
     "@typescript-eslint/eslint-plugin": "^5.37.0",
     "@typescript-eslint/parser": "^5.37.0",
+    "babel-jest": "^29.7.0",
     "eslint": "8.23.1",
     "eslint-config-next": "12.3.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.8",
+    "jest": "^29.7.0",
+    "jest-dom": "^4.0.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jest-transform-stub": "^2.0.0",
     "prettier": "^2.7.1",
+    "ts-jest": "^29.1.1",
     "typescript": "^4.8.3"
   }
 }
