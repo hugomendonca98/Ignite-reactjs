@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react"
 
 import SigninButton from "./SigninButton"
-import {useSession} from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 
 
 jest.mock('next-auth/react')
@@ -34,7 +34,7 @@ describe('SigninButton component', () => {
                     email: 'johndoe@example.com'
                 },
                 expires: 'fake-expires',
-                activeSubscription: '',
+                activeSubscription: null,
             },
             status: 'authenticated'
         })

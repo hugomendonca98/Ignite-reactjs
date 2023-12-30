@@ -1,7 +1,7 @@
 module.exports = {
     preset: 'ts-jest',
     clearMocks: true,
-    bail: true, // Para de executar quando um test falha.
+    bail: true, // Parar de executar quando um test falha.
     testMatch: ['**/src/**/*.spec.tsx'],
     testPathIgnorePatterns: ['/node_modules/', '/.next/'],
     setupFilesAfterEnv: ['<rootDir>/src/tests/setupTests.ts'],
