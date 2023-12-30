@@ -4,7 +4,7 @@ module.exports = {
     bail: true, // Parar de executar quando um test falha.
     testMatch: ['**/src/**/*.spec.tsx'],
     testPathIgnorePatterns: ['/node_modules/', '/.next/'],
-    setupFilesAfterEnv: ['<rootDir>/src/tests/setupTests.ts'],
+    setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
     transform: {
         "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest"
     },
