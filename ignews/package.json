@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint --ext .ts,.tsx",
-    "test": "jest"
+    "test": "jest",
+    "test:runInBand": "jest --runInBand",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --collectCoverage"
   },
   "dependencies": {
     "@prismicio/client": "^6.7.3",

@@ -1,48 +1,41 @@
-import { render, screen } from "@testing-library/react"
+import { render, screen } from "@testing-library/react";
 
-import SigninButton from "./SigninButton"
-import { useSession } from 'next-auth/react';
+import SigninButton from "./SigninButton";
+import { useSession } from "next-auth/react";
 
+jest.mock("next-auth/react");
 
-jest.mock('next-auth/react')
+describe("SigninButton component", () => {
+  it("renders correctly when user is not authenticated", () => {
+    const useSessionMocked = jest.mocked(useSession);
 
-describe('SigninButton component', () => {
-    it('renders correctly when user is not authenticated', () => {
+    useSessionMocked.mockReturnValueOnce({
+      data: null,
+      status: "unauthenticated",
+    });
 
-        const useSessionMocked =  jest.mocked(useSession);
+    render(<SigninButton />);
 
-        useSessionMocked.mockReturnValueOnce({
-            data: null,
-            status: 'unauthenticated'
-        })
+    expect(screen.getByText("Sign in with Github")).toBeInTheDocument();
+  });
 
-        render(
-            <SigninButton />
-        )
+  it("renders correctly when user is authenticated", () => {
+    const useSessionMocked = jest.mocked(useSession);
 
-        expect(screen.getByText('Sign in with Github')).toBeInTheDocument();
-    })
+    useSessionMocked.mockReturnValueOnce({
+      data: {
+        user: {
+          name: "John Doe",
+          email: "johndoe@example.com",
+        },
+        expires: "fake-expires",
+        activeSubscription: null,
+      },
+      status: "authenticated",
+    });
 
-    it('renders correctly when user is authenticated', () => {
+    render(<SigninButton />);
 
-        const useSessionMocked = jest.mocked(useSession);
-
-        useSessionMocked.mockReturnValueOnce({
-            data: {
-                user: {
-                    name: 'John Doe',
-                    email: 'johndoe@example.com'
-                },
-                expires: 'fake-expires',
-                activeSubscription: null,
-            },
-            status: 'authenticated'
-        })
-
-        render(
-            <SigninButton />
-        )
-
-        expect(screen.getByText('John Doe')).toBeInTheDocument();
-    })
-})
+    expect(screen.getByText("John Doe")).toBeInTheDocument();
+  });
+});

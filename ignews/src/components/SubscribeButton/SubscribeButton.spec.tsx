@@ -1,90 +1,80 @@
-import { fireEvent, render, screen } from "@testing-library/react"
+import { fireEvent, render, screen } from "@testing-library/react";
 
-
-import { signIn, useSession } from 'next-auth/react';
+import { signIn, useSession } from "next-auth/react";
 
 import SubscribeButton from "./SubscribeButton";
 import { useRouter } from "next/router";
 
+jest.mock("next-auth/react");
 
-jest.mock('next-auth/react');
+jest.mock("next/router", () => ({
+  useRouter: jest.fn().mockReturnValue({
+    push: jest.fn(),
+  }),
+}));
 
-jest.mock('next/router', () => ({
-    useRouter: jest.fn().mockReturnValue({
-        push: jest.fn(),
-    }),
-}))
+describe("SubscribeButton component", () => {
+  it("renders correctly", () => {
+    const useSessionMocked = jest.mocked(useSession);
 
-describe('SubscribeButton component', () => {
-    it('renders correctly', () => {
-
-        const useSessionMocked = jest.mocked(useSession);
-
-        useSessionMocked.mockReturnValueOnce({
-            data: null,
-            status: 'unauthenticated',
-        })
-
-        render(
-            <SubscribeButton />
-        )
-
-        expect(screen.getByText('Subscribe now')).toBeInTheDocument();
+    useSessionMocked.mockReturnValueOnce({
+      data: null,
+      status: "unauthenticated",
     });
 
-    it('Redirect user to sign in when not authenticated', ()=> {
+    render(<SubscribeButton />);
 
-        const signinMocked = jest.mocked(signIn);
+    expect(screen.getByText("Subscribe now")).toBeInTheDocument();
+  });
 
-        const useSessionMocked = jest.mocked(useSession);
+  it("Redirect user to sign in when not authenticated", () => {
+    const signinMocked = jest.mocked(signIn);
 
-        useSessionMocked.mockReturnValueOnce({
-            data: null,
-            status: 'unauthenticated',
-        })
+    const useSessionMocked = jest.mocked(useSession);
 
-
-       render(<SubscribeButton />);
-
-        const subscribeButton = screen.getByText('Subscribe now');
-
-       fireEvent.click(subscribeButton);
-
-       expect(signinMocked).toHaveBeenCalled();
-       expect(signinMocked).toHaveBeenCalledTimes(1);
-
+    useSessionMocked.mockReturnValueOnce({
+      data: null,
+      status: "unauthenticated",
     });
 
-    it('Redirects to posts when user already has subscription', ()=> {
-        const useRouterMocked = jest.mocked(useRouter);
-        const useSessionMocked = jest.mocked(useSession);
-        const pushMock = jest.fn();
+    render(<SubscribeButton />);
 
-        useSessionMocked.mockReturnValueOnce({
-            data: {
-                user: {
-                    name: 'John Doe',
-                    email: 'johndoe@example.com'
-                },
-                expires: 'fake-expires',
-                activeSubscription: 'fake-active-subscription',
-            },
-            status: 'authenticated'
-        })
+    const subscribeButton = screen.getByText("Subscribe now");
 
-        useRouterMocked.mockReturnValueOnce({
-            push: pushMock,
-        } as any)
+    fireEvent.click(subscribeButton);
 
-        render(<SubscribeButton />);
+    expect(signinMocked).toHaveBeenCalled();
+    expect(signinMocked).toHaveBeenCalledTimes(1);
+  });
 
-        const subscribeButton = screen.getByText('Subscribe now');
+  it("Redirects to posts when user already has subscription", () => {
+    const useRouterMocked = jest.mocked(useRouter);
+    const useSessionMocked = jest.mocked(useSession);
+    const pushMock = jest.fn();
 
-        fireEvent.click(subscribeButton);
-
-        expect(pushMock).toHaveBeenCalled();
-        expect(pushMock).toHaveBeenCalledWith('/posts');
-
+    useSessionMocked.mockReturnValueOnce({
+      data: {
+        user: {
+          name: "John Doe",
+          email: "johndoe@example.com",
+        },
+        expires: "fake-expires",
+        activeSubscription: "fake-active-subscription",
+      },
+      status: "authenticated",
     });
 
+    useRouterMocked.mockReturnValueOnce({
+      push: pushMock,
+    } as any);
+
+    render(<SubscribeButton />);
+
+    const subscribeButton = screen.getByText("Subscribe now");
+
+    fireEvent.click(subscribeButton);
+
+    expect(pushMock).toHaveBeenCalled();
+    expect(pushMock).toHaveBeenCalledWith("/posts");
+  });
 });
