@@ -67,7 +67,7 @@ describe('Post page', () => {
                 },
                 last_publication_date: '04-01-2021'
             })
-        } as any),
+        } as any);
 
         getSessionMocked.mockResolvedValue({
             activeSubscription: 'fake-active-subscription'
